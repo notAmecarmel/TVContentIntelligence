@@ -133,5 +133,55 @@ public class Main {
                     analyzer.calculatePopularityScore(show)
             );
         }
+
+        System.out.println("\nMEDIA PLANNER");
+        System.out.println("-------------");
+
+        MediaPlanner planner = new MediaPlanner(shows);
+
+        List<TVShow> recommendations = planner.findContent(
+                "en",      // Language
+                8.0,       // Minimum rating
+                5000,      // Minimum votes
+                false,     // Include adult content?
+                10         // Number of results
+        );
+
+        System.out.println(
+                "Criteria: English | Rating >= 8.0 | Votes >= 5000 | Non-adult"
+        );
+
+        System.out.println("\nRECOMMENDED CONTENT");
+
+        for (TVShow show : recommendations) {
+
+            System.out.printf(
+                    "%s | Rating: %.2f | Votes: %d | Popularity: %.2f%n",
+                    show.getName(),
+                    show.getVoteAverage(),
+                    show.getVoteCount(),
+                    analyzer.calculatePopularityScore(show)
+            );
+        }
+
+        System.out.println("\nEMERGING CONTENT");
+        System.out.println("-----------------");
+
+        List<TVShow> emergingShows =
+                planner.getContentBySegment(
+                        ContentSegment.EMERGING,
+                        10
+                );
+
+        for (TVShow show : emergingShows) {
+
+            System.out.printf(
+                    "%s | Rating: %.2f | Votes: %d | Popularity: %.2f%n",
+                    show.getName(),
+                    show.getVoteAverage(),
+                    show.getVoteCount(),
+                    analyzer.calculatePopularityScore(show)
+            );
+        }
     }
 }
