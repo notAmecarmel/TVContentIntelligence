@@ -120,5 +120,18 @@ public class Main {
                 "Adult: "
                         + adultDistribution.getOrDefault(true, 0L)
         );
+        System.out.println("\nTOP 10 MOST POPULAR SHOWS");
+        System.out.println("-------------------------");
+
+        for (TVShow show : analyzer.getMostPopularShows(10)) {
+
+            System.out.printf(
+                    "%s | Rating: %.2f | Votes: %d | Popularity Score: %.2f%n",
+                    show.getName(),
+                    show.getVoteAverage(),
+                    show.getVoteCount(),
+                    analyzer.calculatePopularityScore(show)
+            );
+        }
     }
 }

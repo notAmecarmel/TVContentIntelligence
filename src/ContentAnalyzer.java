@@ -1,5 +1,10 @@
 import java.util.*;
 import java.util.stream.Collectors;
+import java.lang.Math;
+
+
+
+
 
 public class ContentAnalyzer {
 
@@ -7,6 +12,27 @@ public class ContentAnalyzer {
 
     public ContentAnalyzer(List<TVShow> shows) {
         this.shows = shows;
+    }
+    public double calculatePopularityScore(TVShow show) {
+
+        return show.getVoteAverage()
+                * Math.log10(1 + show.getVoteCount());
+    }
+
+    public List<TVShow> getMostPopularShows(int limit) {
+
+        return shows.stream()
+                .filter(show ->
+                        show.getVoteAverage() > 0 &&
+                                show.getVoteCount() > 0
+                )
+                .sorted(
+                        Comparator.comparingDouble(
+                                this::calculatePopularityScore
+                        ).reversed()
+                )
+                .limit(limit)
+                .collect(Collectors.toList());
     }
 
     // 1. Total number of shows
